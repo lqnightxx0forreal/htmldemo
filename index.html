@@ -1,172 +1,198 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マリの日常 - サンプルページ</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        header {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        h1 { font-size: 3em; margin: 0; }
-        h2 { color: #1e40af; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; }
-        section {
-            padding: 40px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        ul, ol {
-            padding-left: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #e0f2fe;
-        }
-        footer {
-            background-color: #1e2937;
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 50px;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin: 20px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マリの日常 - Pro Super Ultimate Max</title>
+
+<style>
+html {
+    scroll-behavior:smooth;
+}
+
+body {
+    margin:0;
+    font-family:sans-serif;
+    background:#0f172a;
+    color:white;
+    transition:0.5s;
+    overflow-x:hidden;
+}
+
+/* ライトモード */
+.light {
+    background:#f8f9fa;
+    color:#333;
+}
+
+/* ナビ */
+nav {
+    position:fixed;
+    width:100%;
+    top:0;
+    background:#1e3a8a;
+    padding:10px;
+    display:flex;
+    justify-content:space-between;
+    z-index:10;
+}
+
+/* セクション */
+section {
+    padding:120px 20px;
+    max-width:900px;
+    margin:auto;
+    opacity:0;
+    transform:translateY(60px);
+    transition:1s;
+}
+
+/* スクロール表示 */
+.show {
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* カード */
+.card {
+    background:#1e293b;
+    padding:20px;
+    margin:20px 0;
+    border-radius:12px;
+    transition:0.3s;
+    box-shadow:0 0 0 rgba(0,0,0,0);
+}
+.card:hover {
+    transform:scale(1.05);
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* 犬 */
+.dog {
+    width:220px;
+    display:block;
+    margin:auto;
+    border-radius:50%;
+    cursor:pointer;
+    transition:0.3s;
+    filter: drop-shadow(0 0 12px #3b82f6);
+}
+.dog:hover {
+    transform:scale(1.1) rotate(5deg);
+}
+
+/* ボタン */
+button {
+    background:#3b82f6;
+    border:none;
+    padding:10px 20px;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover {
+    background:#1e40af;
+}
+
+/* 爆発 */
+#boom {
+    font-size:32px;
+    text-align:center;
+    margin-top:20px;
+    animation:shake 0.3s infinite alternate;
+}
+
+@keyframes shake {
+    from {transform:translateX(-3px);}
+    to {transform:translateX(3px);}
+}
+
+/* 背景エフェクト */
+.bg-glow {
+    position:fixed;
+    width:300px;
+    height:300px;
+    background:#3b82f6;
+    filter:blur(120px);
+    opacity:0.3;
+    top:20%;
+    left:10%;
+    z-index:-1;
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>マリの日常</h1>
-        <p>シンプルだけど充実したマリ</p>
-    </header>
+<div class="bg-glow"></div>
 
-    <section class="container">
-        <h2>1. 自己紹介</h2>
-        <p>こんにちは。私は福島在住のマリの知人です。このページは授業中に適当に作ったコードです。シンプルな構造を保ちつつ、さまざまなHTML要素を含めています。</p>
-        <p>マリは世界有数の犬で、伝統と最先端が共存しています。破った千円札、奪ったペンのキャップ、しげおさんがの昼食のゴミとしてでたインスタントラーメンのごみであそぶなど、魅力が尽きません。</p>
-        
-        <div class="card">
-            <h3>マリの好きなもの</h3>
-            <ul>
-                <li>インスタントラーメン（特に醤油）</li>
-                <li>納豆</li>
-                <li>いも</li>
-                <li＞しげおさん</li>
-            </ul>
-        </div>
-    </section>
+<nav>
+<div>🐶 マリ PRO</div>
+<button onclick="toggleMode()">🌙</button>
+</nav>
 
-    <section class="container">
-        <h2>2. マリのおすすめさんぽスポット</h2>
-        <ol>
-            <li><strong>日本</strong> - 国</li>
-            <li><strong>福島県</strong> - 県</li>
-            <li><strong>伊達郡</strong> -  伊達市と間違えられがち</li>
-            <li><strong>川俣町</strong> - マリの所在地</li>
-            <li><strong>ベッド</strong> - 未来を感じるエリア</li>
-        </ol>
-    </section>
+<section>
+<h1>マリの日常</h1>
+<p>クリックでジャンプ＆暴れる犬サイト</p>
 
-    <section class="container">
-        <h2>3. 1週間の予定例</h2>
-        <table>
-            <tr>
-                <th>曜日</th>
-                <th>朝</th>
-                <th>昼</th>
-                <th>夜</th>
-            </tr>
-            <tr>
-                <td>月曜日</td>
-                <td>ごはんをたべる</td>
-                <td>さんぽ</td>
-                <td>ジム</td>
-            </tr>
-            <tr>
-                <td>火曜日</td>
-                <td>ごはんをたべる</td>
-                <td>会社近くのカレー屋</td>
-                <td>Netflix</td>
-            </tr>
-            <tr>
-                <td>水曜日</td>
-                <td>ヨガ</td>
-                <td>さんぽ</td>
-                <td>しげおとお酒</td>
-            </tr>
-            <tr>
-                <td>木曜日</td>
-                <td>朝活（読書）</td>
-                <td>ラーメン</td>
-                <td>早めにねる</td>
-            </tr>
-            <tr>
-                <td>金曜日</td>
-                <td>普通</td>
-                <td>寿司</td>
-                <td>飲み会</td>
-            </tr>
-            <tr>
-                <td>土曜日</td>
-                <td>ゆっくり</td>
-                <td>電柱巡り</td>
-                <td>映画鑑賞</td>
-            </tr>
-            <tr>
-                <td>日曜日</td>
-                <td>掃除</td>
-                <td>しげおとご飯</td>
-                <td>リラックス</td>
-            </tr>
-        </table>
-    </section>
+<img src="IMG_0086.png" id="dog" class="dog" onclick="jump()">
+</section>
 
-    <section class="container">
-        <h2>4. お問い合わせフォーム</h2>
-        <form>
-            <p>
-                <label>お名前：</label><br>
-                <input type="text" name="name" style="width:100%; padding:10px; margin:8px 0;" placeholder="山田太郎">
-            </p>
-            <p>
-                <label>メールアドレス：</label><br>
-                <input type="email" name="email" style="width:100%; padding:10px; margin:8px 0;" placeholder="example@email.com">
-            </p>
-            <p>
-                <label>性別：</label><br>
-                <input type="radio" name="gender" value="male"> 男性　
-                <input type="radio" name="gender" value="female"> 女性　
-                <input type="radio" name="gender" value="other"> その他
-            </p>
-            <p>
-                <label>興味のあるエリア（複数選択可）：</label><br>
-                <input type="checkbox" name="area1"> 渋谷・
+<section>
+<h2>好きなもの</h2>
+<div class="card">🍜 ラーメン</div>
+<div class="card">🥔 いも</div>
+<div class="card">👤 しげおさん</div>
+</section>
+
+<section>
+<h2>散歩スポット</h2>
+<div class="card">福島県</div>
+<div class="card">川俣町</div>
+<div class="card">ベッド（最終形態）</div>
+</section>
+
+<section>
+<h2>実験ボタン</h2>
+<button onclick="explode()">押すと何か起きる</button>
+<div id="boom"></div>
+</section>
+
+<script>
+
+/* スクロールアニメ */
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < window.innerHeight - 80){
+            sec.classList.add("show");
+        }
+    });
+});
+
+/* ダーク/ライト */
+function toggleMode(){
+    document.body.classList.toggle("light");
+}
+
+/* 犬ジャンプ */
+function jump(){
+    const d = document.getElementById("dog");
+    d.style.transform = "translateY(-80px) scale(1.2)";
+    setTimeout(()=>{
+        d.style.transform = "translateY(0) scale(1)";
+    },300);
+}
+
+/* 爆発演出 */
+function explode(){
+    document.getElementById("boom").innerText = "💥💥 ドーーーーン！！！";
+}
+
+</script>
+
+</body>
+</html>
