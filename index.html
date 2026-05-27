@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京の日常 - サンプルページ</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        h1 { font-size: 3em; margin: 0; }
+        h2 { color: #1e40af; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; }
+        section {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        ul, ol {
+            padding-left: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #e0f2fe;
+        }
+        footer {
+            background-color: #1e2937;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>東京の日常</h1>
+        <p>シンプルだけど充実したウェブページのサンプル</p>
+    </header>
+
+    <section class="container">
+        <h2>1. 自己紹介</h2>
+        <p>こんにちは。私は東京在住のサンプルユーザーです。このページはHTMLの練習用に作成された長いサンプルコードです。シンプルな構造を保ちつつ、さまざまなHTML要素を含めています。</p>
+        <p>東京は世界有数の大都市で、伝統と最先端が共存しています。渋谷のスクランブル交差点、浅草の雷門、秋葉原の電気街、新宿の夜景など、魅力が尽きません。</p>
+        
+        <div class="card">
+            <h3>好きなもの</h3>
+            <ul>
+                <li>ラーメン（特に豚骨醤油）</li>
+                <li>山手線に乗ること</li>
+                <li>秋の紅葉狩り</li>
+                <li>夜の東京タワー</li>
+                <li>本屋巡り</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2>2. 東京のおすすめスポット</h2>
+        <ol>
+            <li><strong>浅草寺</strong> - 東京最古の寺院</li>
+            <li><strong>東京スカイツリー</strong> - 高さ634mの電波塔</li>
+            <li><strong>明治神宮</strong> - 都会のオアシス</li>
+            <li><strong>チームラボ ボーダレス</strong> - デジタルアート美術館</li>
+            <li><strong>原宿・表参道</strong> - 若者文化の発信地</li>
+            <li><strong>皇居</strong> - 天皇陛下のお住まい</li>
+            <li><strong>お台場</strong> - 未来を感じるエリア</li>
+        </ol>
+    </section>
+
+    <section class="container">
+        <h2>3. 1週間の予定例</h2>
+        <table>
+            <tr>
+                <th>曜日</th>
+                <th>朝</th>
+                <th>昼</th>
+                <th>夜</th>
+            </tr>
+            <tr>
+                <td>月曜日</td>
+                <td>家でコーヒー</td>
+                <td>近所の定食屋</td>
+                <td>ジム</td>
+            </tr>
+            <tr>
+                <td>火曜日</td>
+                <td>電車通勤</td>
+                <td>会社近くのカレー屋</td>
+                <td>Netflix</td>
+            </tr>
+            <tr>
+                <td>水曜日</td>
+                <td>ヨガ</td>
+                <td>お弁当</td>
+                <td>友人とお酒</td>
+            </tr>
+            <tr>
+                <td>木曜日</td>
+                <td>朝活（読書）</td>
+                <td>ラーメン</td>
+                <td>早めに帰宅</td>
+            </tr>
+            <tr>
+                <td>金曜日</td>
+                <td>普通</td>
+                <td>寿司</td>
+                <td>飲み会</td>
+            </tr>
+            <tr>
+                <td>土曜日</td>
+                <td>ゆっくり</td>
+                <td>カフェ巡り</td>
+                <td>映画鑑賞</td>
+            </tr>
+            <tr>
+                <td>日曜日</td>
+                <td>掃除</td>
+                <td>実家</td>
+                <td>リラックス</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="container">
+        <h2>4. お問い合わせフォーム</h2>
+        <form>
+            <p>
+                <label>お名前：</label><br>
+                <input type="text" name="name" style="width:100%; padding:10px; margin:8px 0;" placeholder="山田太郎">
+            </p>
+            <p>
+                <label>メールアドレス：</label><br>
+                <input type="email" name="email" style="width:100%; padding:10px; margin:8px 0;" placeholder="example@email.com">
+            </p>
+            <p>
+                <label>性別：</label><br>
+                <input type="radio" name="gender" value="male"> 男性　
+                <input type="radio" name="gender" value="female"> 女性　
+                <input type="radio" name="gender" value="other"> その他
+            </p>
+            <p>
+                <label>興味のあるエリア（複数選択可）：</label><br>
+                <input type="checkbox" name="area1"> 渋谷・
