@@ -1,154 +1,527 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マリ OP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マリのホームページ</title>
+    <style>
+        /* --- 基本リセット & 共通スタイル --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+        }
 
-<style>
-body{
-    margin:0;
-    background:black;
-    color:white;
-    font-family:sans-serif;
-    overflow:hidden;
-}
+        body {
+            background-color: #0b0b1a;
+            color: #ffffff;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
 
-/* 背景 */
-#bg{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:radial-gradient(circle,#1e3a8a,#000);
-    animation:zoom 12s infinite alternate;
-    z-index:-1;
-}
-@keyframes zoom{
-    from{transform:scale(1);}
-    to{transform:scale(1.25);}
-}
+        /* --- 宇宙背景 & 流れ星アニメーション --- */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1b1b3a 0%, #050510 100%);
+            z-index: -2;
+            overflow: hidden;
+        }
 
-/* テロップ */
-.text{
-    position:absolute;
-    width:100%;
-    text-align:center;
-    top:45%;
-    font-size:28px;
-    opacity:0;
-}
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
 
-.show{ animation:in 1s forwards; }
-.hide{ animation:out 1s forwards; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
 
-@keyframes in{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
+        /* 流れ星 */
+        .shooting-star {
+            position: absolute;
+            top: -10px;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: shoot 4s infinite linear;
+        }
 
-@keyframes out{
-    to{opacity:0; transform:translateY(-10px);}
-}
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+            10% { opacity: 1; }
+            20% { transform: translate(300px, 300px) rotate(45deg); opacity: 0; }
+            100% { transform: translate(300px, 300px) rotate(45deg); opacity: 0; }
+        }
 
-/* 犬 */
-#dog{
-    position:absolute;
-    bottom:18%;
-    left:50%;
-    transform:translateX(-50%);
-    width:200px;
-    opacity:0;
-    filter: drop-shadow(0 0 20px #60a5fa);
-}
+        /* --- アニメOP演出（イントロ・フラッシュ） --- */
+        #op-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            animation: introSequence 5s forwards;
+        }
 
-/* SNS */
-#sns{
-    position:absolute;
-    width:100%;
-    text-align:center;
-    top:50%;
-    opacity:0;
-    transition:1s;
-}
+        /* 画面フラッシュ演出 */
+        #flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+        }
 
-#sns a{
-    display:block;
-    margin:10px;
-    color:#60a5fa;
-    text-decoration:none;
-    font-size:18px;
-}
-</style>
+        @keyframes introSequence {
+            0% { background: #000; opacity: 1; }
+            20% { background: #000; }
+            40% { background: #fff; } /* 瞬間的な白フラッシュ */
+            42% { background: #0b0b1a; }
+            90% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* OP風テロップ（タイポグラフィ） */
+        .op-telop {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            opacity: 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        .telop-1 { animation: telopFade 1.5s dotted 0.5s forwards; top: 20%; left: 10%; }
+        .telop-2 { animation: telopFade 1.5s dotted 2.0s forwards; bottom: 20%; right: 10%; }
+
+        @keyframes telopFade {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(5px); }
+            20% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+            80% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: translateY(-20px) scale(1.05); filter: blur(5px); }
+        }
+
+        /* 豪快なタイトルロゴ出現ズーム（カメラワーク風） */
+        .op-logo {
+            font-size: 5rem;
+            color: #ffde59;
+            text-shadow: 0 0 20px rgba(255,222,89,0.8), 3px 3px 0 #ff3131;
+            font-weight: 900;
+            opacity: 0;
+            transform: scale(0.3);
+            animation: logoZoom 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.2s forwards;
+        }
+
+        @keyframes logoZoom {
+            0% { opacity: 0; transform: scale(0.3) rotate(-5deg); }
+            50% { opacity: 1; }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* --- メインコンテンツ --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* カメラワーク風フェードインメインタイトル */
+        .main-title {
+            font-size: 4.5rem;
+            color: #ffde59;
+            text-shadow: 0 0 15px rgba(255,222,89,0.6);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInDown 1.5s ease 4.5s forwards;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #00f0ff;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 4.8s forwards;
+        }
+
+        /* マリの画像登場演出（カメラズーム風） */
+        .hero-img-container {
+            margin-top: 40px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 5px solid #00f0ff;
+            box-shadow: 0 0 25px rgba(0,240,255,0.5);
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: imagePop 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.2s forwards;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-img-container:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- スクロールで現れるストーリー＆設定セクション --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #ff3131;
+            text-shadow: 0 0 10px rgba(255,49,49,0.5);
+            position: relative;
+        }
+
+        /* アニメーションカード（ホバーで動く） */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s, background 0.4s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0,240,255,0.2);
+            border-color: #00f0ff;
+        }
+
+        .card h3 {
+            color: #00f0ff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ddddee;
+        }
+
+        /* スケール＆スクロールフェード用クラス */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SNSリンクボタン --- */
+        .sns-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        .btn-youtube {
+            background: #ff0000;
+            color: #fff;
+        }
+        .btn-youtube:hover {
+            background: #cc0000;
+            box-shadow: 0 0 25px rgba(255,0,0,0.6);
+            transform: scale(1.05);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+        }
+        .btn-instagram:hover {
+            box-shadow: 0 0 25px rgba(220,39,67,0.6);
+            transform: scale(1.05);
+        }
+
+        /* --- クリック粒子・スコアエフェクト演出 --- */
+        .click-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00f0ff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particlePop 0.6s ease-out forwards;
+        }
+
+        @keyframes particlePop {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
+        }
+
+        #score-display {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #ffde59;
+            font-weight: bold;
+            color: #ffde59;
+            z-index: 100;
+        }
+
+        /* --- 汎用キーフレーム --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes imagePop {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="bg"></div>
+    <div id="score-display">🐾 マリへの愛: <span id="score">0</span></div>
 
-<!-- OPテロップ -->
-<div class="text" id="t1">これは、とある犬の物語。</div>
-<div class="text" id="t2">その名は──マリ</div>
-<div class="text" id="t3">名前の由来は「マリオ」</div>
-<div class="text" id="t4">飼い主・たかしが名付けた</div>
-<div class="text" id="t5">福島で暮らす、小さな存在</div>
-<div class="text" id="t6">好きなものは、いもとラーメン</div>
-<div class="text" id="t7">そして人間「しげお」</div>
-<div class="text" id="t8">この物語は、日常である</div>
-<div class="text" id="t9">──マリのホームページ</div>
+    <div class="space-bg" id="space"></div>
 
-<img src="IMG_0086.png" id="dog">
+    <div id="flash-overlay"></div>
 
-<!-- SNS（最後に出す） -->
-<div id="sns">
-<h2>📱 SNS</h2>
-<a href="https://www.youtube.com/channel/UCxWzjqvY4GezHyC8n5Ku_8g" target="_blank">
-YouTube
-</a>
+    <div id="op-intro">
+        <div class="op-telop telop-1">福島を舞台に繰り広げられる――</div>
+        <div class="op-telop telop-2">たかし、そして「しげお」との遭遇</div>
+        <div class="op-logo">マリ！</div>
+    </div>
 
-<a href="https://www.instagram.com/takashi.4410/" target="_blank">
-Instagram
-</a>
-</div>
+    <header>
+        <h1 class="main-title">マリのホームページ</h1>
+        <p class="subtitle">〜 いもとラーメン、ときどきしげお 〜</p>
+        
+        <div class="hero-img-container">
+            <img src="IMG_0086.png" alt="マリ" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500'; console.log('IMG_0086.pngが見つからないためサンプル画像を表示しています');">
+        </div>
+    </header>
 
-<script>
+    <div class="container">
+        
+        <section class="reveal">
+            <h2 class="section-title">🐶 マリのいままで</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>名前：マリ</h3>
+                    <p>飼い主の「たかし」が、当時めちゃくちゃハマっていた大好きなゲーム<b>「マリオ」</b>から直感で命名された。</p>
+                </div>
+                <div class="card">
+                    <h3>大好物</h3>
+                    <p>何よりも<b>いも</b>と<b>納豆</b>が大好き。食いしん坊な一面が、物語を予想外の展開へ導くことも…？</p>
+                </div>
+                <div class="card">
+                    <h3>舞台は福島</h3>
+                    <p>のどかで美しい福島の街が日常のステージ。ここで、たかしたちと共にまったり熱い日々を過ごしている。</p>
+                </div>
+                <div class="card">
+                    <h3>謎の男「しげお」</h3>
+                    <p>マリの日常系ストーリーに突如として現れる人物、<b>しげお</b>。彼が一体何者なのかは、お楽しみ。</p>
+                </div>
+            </div>
+        </section>
 
-const list=[
-"t1","t2","t3","t4","t5","t6","t7","t8","t9"
-];
+        <section class="reveal">
+            <h2 class="section-title">📺 チャンネル・アカウント</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: #aaa;">マリのリアルな日常をここからチェック！</p>
+            <div class="sns-buttons">
+                <a href="https://www.youtube.com/channel/UCxWzjqvY4GezHyC8n5Ku_8g" target="_blank" class="btn btn-youtube">YouTube Channel</a>
+                <a href="https://www.instagram.com/takashi.4410/" target="_blank" class="btn btn-instagram">Instagram</a>
+            </div>
+        </section>
 
-let time=800;
+    </div>
 
-/* OPテロップ */
-list.forEach((id)=>{
-    setTimeout(()=>{
-        const el=document.getElementById(id);
+    <footer>
+        <p>© 2026 マリの日常製作委員会. All Rights Reserved.</p>
+    </footer>
 
-        el.classList.add("show");
+    <script>
+        // --- 1. 背景の星を自動生成 ---
+        const space = document.getElementById('space');
+        const starCount = 60;
 
-        setTimeout(()=>{
-            el.classList.remove("show");
-            el.classList.add("hide");
-        },1500);
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // ランダム配置
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            
+            // ランダムサイズ
+            const size = Math.random() * 3;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // アニメーションのタイミングをずらす
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            
+            space.appendChild(star);
+        }
 
-    },time);
+        // 流れ星を定期的に降らせる
+        setInterval(() => {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            shootingStar.style.left = `${Math.random() * 80}%`;
+            shootingStar.style.top = `${Math.random() * 40}%`;
+            space.appendChild(shootingStar);
+            
+            // アニメーション終了後に要素を削除
+            setTimeout(() => {
+                shootingStar.remove();
+            }, 4000);
+        }, 3000);
 
-    time+=1800;
-});
 
-/* 犬登場 */
-setTimeout(()=>{
-    const d=document.getElementById("dog");
-    d.style.opacity=1;
-    d.style.transition="1.5s";
-},time);
+        // --- 2. フラッシュ演出のタイミング制御 ---
+        const flash = document.getElementById('flash-overlay');
+        setTimeout(() => {
+            flash.style.opacity = '1';
+            // 閃光が走った後、即座に不透明度を戻す
+            setTimeout(() => {
+                flash.style.transition = 'opacity 0.8s ease-out';
+                flash.style.opacity = '0';
+            }, 50);
+        }, 2000); // イントロ開始2秒後（白背景化するタイミング）
 
-/* SNS表示（OP後） */
-setTimeout(()=>{
-    const sns=document.getElementById("sns");
-    sns.style.opacity=1;
-},time+1500);
 
-</script>
+        // --- 3. スクロール連動のフェードイン＆パララックス（演出変化） ---
+        const reveals = document.querySelectorAll('.reveal');
 
+        function checkScroll() {
+            const triggerBottom = window.innerHeight * 0.85;
+
+            reveals.forEach(reveal => {
+                const revealTop = reveal.getBoundingClientRect().top;
+                if (revealTop < triggerBottom) {
+                    reveal.classList.add('active');
+                } else {
+                    reveal.classList.remove('active'); // 上に戻した時に何度も演出を楽しめる
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        // 初期チェック
+        checkScroll();
+
+
+        // --- 4. クリック粒子（パーティクル）＆スコアカウント演出 ---
+        let score = 0;
+        const scoreNum = document.getElementById('score');
+
+        window.addEventListener('click', (e) => {
+            // スコアアップ
+            score++;
+            scoreNum.textContent = score;
+
+            // 弾ける粒子を5個生成
+            for (let i = 0; i < 5; i++) {
+                const p = document.createElement('div');
+                p.classList.add('click-particle');
+                
+                // クリック位置に配置
+                p.style.left = `${e.clientX}px`;
+                p.style.top = `${e.clientY}px`;
+
+                // ランダムな飛び散る方向をCSS変数に渡す
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 60 + 30;
+                const mx = Math.cos(angle) * distance;
+                const my = Math.sin(angle) * distance;
+                
+                p.style.setProperty('--mx', `${mx}px`);
+                p.style.setProperty('--my', `${my}px`);
+                
+                // ランダムカラー（水色・黄色・白のアニメ調）
+                const colors = ['#00f0ff', '#ffde59', '#ffffff', '#ff3131'];
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                document.body.appendChild(p);
+
+                // アニメーション終了後に削除
+                setTimeout(() => {
+                    p.remove();
+                }, 600);
+            }
+        });
+    </script>
 </body>
 </html>
