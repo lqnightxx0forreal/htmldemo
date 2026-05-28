@@ -3,182 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マリのホームページ</title>
+<title>マリ OP</title>
 
 <style>
 body{
     margin:0;
-    font-family:sans-serif;
     background:black;
     color:white;
-    overflow-x:hidden;
-}
-
-/* OP */
-#op{
-    height:100vh;
-    position:relative;
+    font-family:sans-serif;
     overflow:hidden;
 }
 
 /* 背景 */
-#op::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:200%;
+#bg{
+    position:fixed;
+    width:100%;
+    height:100%;
     background:radial-gradient(circle,#1e3a8a,#000);
-    animation:bgmove 14s linear infinite;
+    animation:zoom 12s infinite alternate;
+    z-index:-1;
 }
-@keyframes bgmove{
-    to{transform:scale(1.3);}
+@keyframes zoom{
+    from{transform:scale(1);}
+    to{transform:scale(1.25);}
 }
 
-/* テキスト */
+/* テロップ */
 .text{
     position:absolute;
     width:100%;
     text-align:center;
     top:45%;
-    font-size:26px;
+    font-size:28px;
     opacity:0;
 }
 
-/* フェード */
-.show{
-    animation:fade 2s forwards;
-}
-@keyframes fade{
+.show{ animation:in 1s forwards; }
+.hide{ animation:out 1s forwards; }
+
+@keyframes in{
     from{opacity:0; transform:translateY(20px);}
-    to{opacity:1;}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes out{
+    to{opacity:0; transform:translateY(-10px);}
 }
 
 /* 犬 */
 #dog{
     position:absolute;
-    bottom:20%;
+    bottom:18%;
     left:50%;
     transform:translateX(-50%);
-    width:180px;
+    width:200px;
     opacity:0;
-}
-
-/* フラッシュ */
-#flash{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:white;
-    opacity:0;
-}
-
-/* 本編 */
-#main{
-    background:#050816;
-    padding:100px 20px;
-    text-align:center;
-}
-
-.card{
-    max-width:700px;
-    margin:20px auto;
-    padding:20px;
-    background:rgba(255,255,255,0.08);
-    border-radius:12px;
+    filter: drop-shadow(0 0 20px #60a5fa);
 }
 
 /* SNS */
-a{
+#sns{
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:50%;
+    opacity:0;
+    transition:1s;
+}
+
+#sns a{
+    display:block;
+    margin:10px;
     color:#60a5fa;
     text-decoration:none;
+    font-size:18px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- OP -->
-<section id="op">
+<div id="bg"></div>
 
-<div id="flash"></div>
-
-<div class="text" id="t1">マリのホームページ</div>
-<div class="text" id="t2">その名前には、物語がある</div>
-<div class="text" id="t3">「マリ」</div>
-<div class="text" id="t4">それは、飼い主たかしが</div>
-<div class="text" id="t5">かつて好きだったゲームから――</div>
-<div class="text" id="t6">マリオ</div>
-<div class="text" id="t7">そこから生まれた名前</div>
-<div class="text" id="t8">マリ</div>
-<div class="text" id="t9">Presented by たかし</div>
+<!-- OPテロップ -->
+<div class="text" id="t1">これは、とある犬の物語。</div>
+<div class="text" id="t2">その名は──マリ</div>
+<div class="text" id="t3">名前の由来は「マリオ」</div>
+<div class="text" id="t4">飼い主・たかしが名付けた</div>
+<div class="text" id="t5">福島で暮らす、小さな存在</div>
+<div class="text" id="t6">好きなものは、いもとラーメン</div>
+<div class="text" id="t7">そして人間「しげお」</div>
+<div class="text" id="t8">この物語は、日常である</div>
+<div class="text" id="t9">──マリのホームページ</div>
 
 <img src="IMG_0086.png" id="dog">
 
-</section>
-
-<!-- 本編 -->
-<section id="main">
-
-<h1>🐶 ようこそ、マリの世界へ</h1>
-
-<div class="card">名前：マリ</div>
-<div class="card">由来：マリオから</div>
-<div class="card">飼い主：たかし</div>
-
-<div class="card">
-📺 YouTube<br>
+<!-- SNS（最後に出す） -->
+<div id="sns">
+<h2>📱 SNS</h2>
 <a href="https://www.youtube.com/channel/UCxWzjqvY4GezHyC8n5Ku_8g" target="_blank">
-チャンネルを見る
+YouTube
 </a>
-</div>
 
-<div class="card">
-📷 Instagram<br>
 <a href="https://www.instagram.com/takashi.4410/" target="_blank">
-アカウントを見る
+Instagram
 </a>
 </div>
-
-</section>
 
 <script>
 
-/* テロップ順番 */
-const list = [
-    "t1","t2","t3","t4","t5","t6","t7","t8","t9"
+const list=[
+"t1","t2","t3","t4","t5","t6","t7","t8","t9"
 ];
 
-list.forEach((id,i)=>{
+let time=800;
+
+/* OPテロップ */
+list.forEach((id)=>{
     setTimeout(()=>{
         const el=document.getElementById(id);
+
         el.classList.add("show");
 
         setTimeout(()=>{
-            el.style.opacity=0;
-        },2000);
+            el.classList.remove("show");
+            el.classList.add("hide");
+        },1500);
 
-    },i*1800+500);
+    },time);
+
+    time+=1800;
 });
 
-/* 犬 */
+/* 犬登場 */
 setTimeout(()=>{
-    const dog=document.getElementById("dog");
-    dog.style.opacity=1;
-    dog.style.transition="1.5s";
-},12000);
+    const d=document.getElementById("dog");
+    d.style.opacity=1;
+    d.style.transition="1.5s";
+},time);
 
-/* フラッシュ */
+/* SNS表示（OP後） */
 setTimeout(()=>{
-    const f=document.getElementById("flash");
-    f.style.opacity=0.8;
-    setTimeout(()=>f.style.opacity=0,200);
-},12200);
-
-/* スクロールでOP消える */
-window.addEventListener("scroll",()=>{
-    const op=document.getElementById("op");
-    op.style.opacity=1-window.scrollY/400;
-});
+    const sns=document.getElementById("sns");
+    sns.style.opacity=1;
+},time+1500);
 
 </script>
 
