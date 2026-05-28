@@ -101,7 +101,7 @@
             100% { opacity: 0; visibility: hidden; }
         }
 
-        /* OP風テロップ（タイポグラフィ） */
+        /* OP風テロップ */
         .op-telop {
             position: absolute;
             font-size: 2rem;
@@ -111,8 +111,8 @@
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
         }
 
-        .telop-1 { animation: telopFade 1.5s dotted 0.5s forwards; top: 20%; left: 10%; }
-        .telop-2 { animation: telopFade 1.5s dotted 2.0s forwards; bottom: 20%; right: 10%; }
+        .telop-1 { animation: telopFade 1.5s ease 0.5s forwards; top: 20%; left: 10%; }
+        .telop-2 { animation: telopFade 1.5s ease 2.0s forwards; bottom: 20%; right: 10%; }
 
         @keyframes telopFade {
             0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(5px); }
@@ -121,7 +121,7 @@
             100% { opacity: 0; transform: translateY(-20px) scale(1.05); filter: blur(5px); }
         }
 
-        /* 豪快なタイトルロゴ出現ズーム（カメラワーク風） */
+        /* タイトルロゴ出現ズーム */
         .op-logo {
             font-size: 5rem;
             color: #ffde59;
@@ -140,17 +140,16 @@
 
         /* --- メインコンテンツ --- */
         header {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
-        /* カメラワーク風フェードインメインタイトル */
         .main-title {
             font-size: 4.5rem;
             color: #ffde59;
@@ -168,23 +167,44 @@
             animation: fadeInUp 1.5s ease 4.8s forwards;
         }
 
-        /* マリの画像登場演出（カメラズーム風） */
+        /* 【変更】丸枠を廃止し、四角いスタイリッシュな角丸コンテナへ */
         .hero-img-container {
             margin-top: 40px;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            border: 5px solid #00f0ff;
-            box-shadow: 0 0 25px rgba(0,240,255,0.5);
+            max-width: 320px;
+            width: 90%;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px; /* 少し角を丸めて滑らかに */
+            border: 4px solid #00f0ff;
+            box-shadow: 0 0 25px rgba(0,240,255,0.4);
             overflow: hidden;
             opacity: 0;
             transform: scale(0.5);
             animation: imagePop 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.2s forwards;
-            transition: transform 0.3s ease;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        /* ホバー時は少しだけ拡大 */
         .hero-img-container:hover {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.03);
+            box-shadow: 0 0 35px rgba(0,240,255,0.7);
+        }
+
+        /* 【追加】タップ時にJSでこのクラスをつけてジャンプ（跳ねる）させる */
+        .hero-img-container.jump {
+            animation: dogJump 0.45s ease-out;
+        }
+
+        /* アニメーションOP風の勢いある縦ジャンプ */
+        @keyframes dogJump {
+            0% { transform: scale(1, 1) translateY(0); }
+            /* 地面を蹴る前のタメ（少し横に潰れる） */
+            15% { transform: scale(1.1, 0.8) translateY(0); }
+            /* 最高到達点（縦に伸びる） */
+            50% { transform: scale(0.9, 1.2) translateY(-60px); }
+            /* 着地直前 */
+            85% { transform: scale(1.05, 0.9) translateY(0); }
+            100% { transform: scale(1, 1) translateY(0); }
         }
 
         .hero-img {
@@ -351,39 +371,46 @@
 </head>
 <body>
 
+    <!-- クリックカウント表示 -->
     <div id="score-display">🐾 マリへの愛: <span id="score">0</span></div>
 
+    <!-- 宇宙背景 -->
     <div class="space-bg" id="space"></div>
 
+    <!-- 画面一瞬フラッシュ用のオーバーレイ -->
     <div id="flash-overlay"></div>
 
+    <!-- アニメOP風演出レイヤー -->
     <div id="op-intro">
         <div class="op-telop telop-1">福島を舞台に繰り広げられる――</div>
         <div class="op-telop telop-2">たかし、そして「しげお」との遭遇</div>
-        <div class="op-logo">マリ！</div>
+        <div class="op-logo">カタカナでマリ！</div>
     </div>
 
+    <!-- メインコンテンツ -->
     <header>
         <h1 class="main-title">マリのホームページ</h1>
-        <p class="subtitle">〜 いもとラーメン、ときどきしげお 〜</p>
+        <p class="subtitle">〜 いもとラーメン、ときどき宇宙 〜</p>
         
-        <div class="hero-img-container">
+        <!-- 【変更】丸枠ではなくなり、タップすると跳ねる犬の画像エリア -->
+        <div class="hero-img-container" id="dog-container">
             <img src="IMG_0086.png" alt="マリ" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500'; console.log('IMG_0086.pngが見つからないためサンプル画像を表示しています');">
         </div>
     </header>
 
     <div class="container">
         
+        <!-- キャラクター設定セクション -->
         <section class="reveal">
-            <h2 class="section-title">🐶 マリのいままで</h2>
+            <h2 class="section-title">🐶 キャラクター設定</h2>
             <div class="grid">
                 <div class="card">
                     <h3>名前：マリ</h3>
                     <p>飼い主の「たかし」が、当時めちゃくちゃハマっていた大好きなゲーム<b>「マリオ」</b>から直感で命名された。</p>
                 </div>
                 <div class="card">
-                    <h3>大好物</h3>
-                    <p>何よりも<b>いも</b>と<b>納豆</b>が大好き。食いしん坊な一面が、物語を予想外の展開へ導くことも…？</p>
+                    <h3>大好物 🍜</h3>
+                    <p>何よりも<b>いも</b>と<b>ラーメン</b>が大好き。食いしん坊な一面が、物語を予想外の展開へ導くことも…？</p>
                 </div>
                 <div class="card">
                     <h3>舞台は福島</h3>
@@ -391,11 +418,12 @@
                 </div>
                 <div class="card">
                     <h3>謎の男「しげお」</h3>
-                    <p>マリの日常系ストーリーに突如として現れる人物、<b>しげお</b>。彼が一体何者なのかは、お楽しみ。</p>
+                    <p>マリの日常系ストーリーに突如として現れる人物、<b>しげお</b>。彼が一体何者なのかは、本編のOPを開けてのお楽しみ。</p>
                 </div>
             </div>
         </section>
 
+        <!-- SNS情報セクション -->
         <section class="reveal">
             <h2 class="section-title">📺 チャンネル・アカウント</h2>
             <p style="text-align: center; margin-bottom: 30px; color: #aaa;">マリのリアルな日常をここからチェック！</p>
@@ -419,19 +447,12 @@
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            
-            // ランダム配置
             star.style.left = `${Math.random() * 100}%`;
             star.style.top = `${Math.random() * 100}%`;
-            
-            // ランダムサイズ
             const size = Math.random() * 3;
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
-            
-            // アニメーションのタイミングをずらす
             star.style.animationDelay = `${Math.random() * 3}s`;
-            
             space.appendChild(star);
         }
 
@@ -442,11 +463,7 @@
             shootingStar.style.left = `${Math.random() * 80}%`;
             shootingStar.style.top = `${Math.random() * 40}%`;
             space.appendChild(shootingStar);
-            
-            // アニメーション終了後に要素を削除
-            setTimeout(() => {
-                shootingStar.remove();
-            }, 4000);
+            setTimeout(() => { shootingStar.remove(); }, 4000);
         }, 3000);
 
 
@@ -454,72 +471,89 @@
         const flash = document.getElementById('flash-overlay');
         setTimeout(() => {
             flash.style.opacity = '1';
-            // 閃光が走った後、即座に不透明度を戻す
             setTimeout(() => {
                 flash.style.transition = 'opacity 0.8s ease-out';
                 flash.style.opacity = '0';
             }, 50);
-        }, 2000); // イントロ開始2秒後（白背景化するタイミング）
+        }, 2000);
 
 
-        // --- 3. スクロール連動のフェードイン＆パララックス（演出変化） ---
+        // --- 3. スクロール連動のフェードイン ---
         const reveals = document.querySelectorAll('.reveal');
 
         function checkScroll() {
             const triggerBottom = window.innerHeight * 0.85;
-
             reveals.forEach(reveal => {
                 const revealTop = reveal.getBoundingClientRect().top;
                 if (revealTop < triggerBottom) {
                     reveal.classList.add('active');
                 } else {
-                    reveal.classList.remove('active'); // 上に戻した時に何度も演出を楽しめる
+                    reveal.classList.remove('active');
                 }
             });
         }
-
         window.addEventListener('scroll', checkScroll);
-        // 初期チェック
         checkScroll();
 
 
-        // --- 4. クリック粒子（パーティクル）＆スコアカウント演出 ---
+        // --- 4. 犬のジャンプ演出【追加】 ---
+        const dogContainer = document.getElementById('dog-container');
+        
+        dogContainer.addEventListener('click', (e) => {
+            // イベントの伝播を止めて、背景の「クリック粒子」生成と喧嘩しないようにする
+            e.stopPropagation();
+
+            // 連打された時のために、一度jumpクラスを消してすぐに再付与する
+            dogContainer.classList.remove('jump');
+            // ブラウザに描画をリセットさせるための一行
+            void dogContainer.offsetWidth; 
+            
+            // ジャンプクラスを付与
+            dogContainer.classList.add('jump');
+
+            // ジャンプの瞬間にも特別に多めに粒子を発生させる
+            for (let i = 0; i < 8; i++) {
+                createParticle(e.clientX, e.clientY);
+            }
+            
+            // スコアもアップ
+            score++;
+            scoreNum.textContent = score;
+        });
+
+
+        // --- 5. クリック粒子（パーティクル）＆スコアカウント演出 ---
         let score = 0;
         const scoreNum = document.getElementById('score');
 
+        // 共通の粒子生成関数
+        function createParticle(x, y) {
+            const p = document.createElement('div');
+            p.classList.add('click-particle');
+            p.style.left = `${x}px`;
+            p.style.top = `${y}px`;
+
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 70 + 30;
+            const mx = Math.cos(angle) * distance;
+            const my = Math.sin(angle) * distance;
+            
+            p.style.setProperty('--mx', `${mx}px`);
+            p.style.setProperty('--my', `${my}px`);
+            
+            const colors = ['#00f0ff', '#ffde59', '#ffffff', '#ff3131'];
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(p);
+            setTimeout(() => { p.remove(); }, 600);
+        }
+
+        // 背景クリック時の演出
         window.addEventListener('click', (e) => {
-            // スコアアップ
             score++;
             scoreNum.textContent = score;
-
-            // 弾ける粒子を5個生成
             for (let i = 0; i < 5; i++) {
-                const p = document.createElement('div');
-                p.classList.add('click-particle');
-                
-                // クリック位置に配置
-                p.style.left = `${e.clientX}px`;
-                p.style.top = `${e.clientY}px`;
-
-                // ランダムな飛び散る方向をCSS変数に渡す
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 60 + 30;
-                const mx = Math.cos(angle) * distance;
-                const my = Math.sin(angle) * distance;
-                
-                p.style.setProperty('--mx', `${mx}px`);
-                p.style.setProperty('--my', `${my}px`);
-                
-                // ランダムカラー（水色・黄色・白のアニメ調）
-                const colors = ['#00f0ff', '#ffde59', '#ffffff', '#ff3131'];
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-                document.body.appendChild(p);
-
-                // アニメーション終了後に削除
-                setTimeout(() => {
-                    p.remove();
-                }, 600);
+                createParticle(e.clientX, e.clientY);
             }
         });
     </script>
